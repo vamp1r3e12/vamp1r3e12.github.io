@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Валентинка</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('backkawaiigif.gif') no-repeat center center/cover;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        h1 {
+            color: #d63384;
+        }
+        .buttons {
+            display: flex; /* Используем flex для горизонтального расположения кнопок */
+            justify-content: center; /* Центрируем кнопки */
+            gap: 20px; /* Расстояние между кнопками */
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+            position: relative;
+        }
+        #yes {
+            background-color: #ff69b4;
+            color: white;
+        }
+        #no {
+            background-color: #d3d3d3;
+            color: black;
+        }
+        #gif {
+            display: none;
+            margin-top: 20px;
+            max-width: 300px;
+        }
+        #question-gif {
+            max-width: 300px;
+            margin-top: 10px;
+        }
+        #celebration {
+            display: none;
+            text-align: center;
+            font-size: 24px;
+            color: #ff69b4;
+            margin-top: 20px;
+            position: relative;
+        }
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 20px;
+            animation: floatUp 2s infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Ты будешь моей валентинкой? 💖</h1>
+    <img id="question-gif" src="kawaiigif1.gif" alt="Вопрос гифка">
+    <div class="buttons">
+        <button id="yes">Да!</button>
+        <button id="no">Нет</button>
+    </div>
+    <div id="celebration">
+        <img id="gif" src="kawaiigif.gif" alt="ЮХУУУУУ!!">
+        <p>ЮХУУУУУ!!</p>
+    </div>
+
+    <script>
+        const noButton = document.getElementById("no");
+        const yesButton = document.getElementById("yes");
+        const celebration = document.getElementById("celebration");
+
+        document.addEventListener("mousemove", (event) => {
+            const x = event.clientX;
+            const y = event.clientY;
+            const btnRect = noButton.getBoundingClientRect();
+            const btnX = btnRect.left + btnRect.width / 2;
+            const btnY = btnRect.top + btnRect.height / 2;
+            const deltaX = btnX - x;
+            const deltaY = btnY - y;
+            const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+            
+            if (distance < 100) { // Если курсор близко, кнопка убегает
+                const moveX = deltaX / distance * 150;
+                const moveY = deltaY / distance * 150;
+
+                // Для случайного движения по экрану
+                let newX = Math.random() * (window.innerWidth - btnRect.width);
+                let newY = Math.random() * (window.innerHeight - btnRect.height);
+                
+                noButton.style.transition = "left 0.2s, top 0.2s";
+                noButton.style.position = "absolute"; // Обновляем позицию кнопки "Нет"
+                noButton.style.left = `${newX}px`;
+                noButton.style.top = `${newY}px`;
+            }
+        });
+
+        yesButton.addEventListener("click", function () {
+            celebration.style.display = "block";
+            createHearts();
+        });
+
+        function createHearts() {
+            for (let i = 0; i < 10; i++) {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("heart");
+                heart.style.left = Math.random() * 100 + "%";
+                heart.style.top = Math.random() * 100 + "%";
+                heart.style.animationDuration = Math.random() * 2 + 1 + "s";
+                celebration.appendChild(heart);
+                setTimeout(() => heart.remove(), 2000);
+            }
+        }
+    </script>
+</body>
+</html>
